@@ -13,4 +13,13 @@ void startScheduler();
 // The ISR for the SysTick which is used by the scheduler
 __attribute__ ((interrupt("FIQ"))) void SysTick_ISR();
 
+
+/*
+ * Definitions regarding current process
+ */
+extern void * current_PCB_ptr;
+
+
+
+
 #endif
