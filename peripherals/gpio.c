@@ -5,20 +5,8 @@
 #define CONFIG(GPIOx_CRL, GPIOx_CRH) 								\
 	switch(gpio_mode){												\
 		case OUTPUT_PUSH_PULL:										\
-			modey = 0b11;											\\
-			cnfy = 0b00;											\
-			break;													\
-		case OUTPUT_OPEN_DRAIN:										\
 			modey = 0b11;											\
-			cnfy = 0b01;											\
-			break;													\
-		case ALT_FUNC_PUSH_PULL:									\
-			modey = 0b11;											\
-			cnfy = 0b10;											\
-			break;													\
-		case ALT_FUNC_OPEN_DRAIN:									\
-			modey = 0b11;											\
-			cnfy = 0b11;											\
+			cnfy = 0b00;												\
 			break;													\
 		default:													\
 			break;													\
@@ -38,13 +26,11 @@
 	}
 
 void config_pin(uint8_t port, uint8_t pin, uint8_t gpio_mode){
-	uint8_t cnfy, modey;
+	uint32_t cnfy, modey;
 	switch(port){
 		case GPIOA:
-			CONFIG(GPIOA_CRL, GPIOA_CRH);
 			break;
 		case GPIOB:
-			CONFIG(GPIOB_CRL, GPIOB_CRH);
 			break;
 		case GPIOC:
 			CONFIG(GPIOC_CRL, GPIOC_CRH);
@@ -58,14 +44,6 @@ void config_pin(uint8_t port, uint8_t pin, uint8_t gpio_mode){
 void set_pin(uint8_t port, uint8_t pin, uint8_t value){
 	uint32_t current;
 	switch(port){
-		case GPIOA:
-			current = GPIOA_ODR & (~(((uint32_t)1) << pin));
-			GPIOA_ODR = current | ((uint32_t)value << pin);
-			break;
-		case GPIOB
-			current = GPIOB_ODR & (~(((uint32_t)1) << pin));
-			GPIOB_ODR = current | ((uint32_t)value << pin);
-			break;
 		case GPIOC:
 			current = GPIOC_ODR & (~(((uint32_t)1) << pin));
 			GPIOC_ODR = current | ((uint32_t)value << pin);
@@ -74,5 +52,3 @@ void set_pin(uint8_t port, uint8_t pin, uint8_t value){
 			break;
 	}
 }
-
-

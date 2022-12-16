@@ -1,6 +1,7 @@
 #include "peripherals/gpio.h"
 #include "interrupts/interrupt.h"
 #include "context_switching/context_switching.h"
+#include "process/process.h"
 #include <stdint.h>
 
 #define ICSR		*(volatile uint32_t *) 0xE000ED04
@@ -10,6 +11,29 @@
 #define RCC_IOPCEN   (1<<4)
 
 #define GPIOC13 (1 << 13UL)
+
+void process1(){
+	while(1){
+		//GPIOC_ODR |=  GPIOC13;
+		set_pin(GPIOC, GPIO_PIN_13, 0);
+        for (int i = 0; i < 50000; i++);
+		//GPIOC_ODR &= ~GPIOC13;
+        set_pin(GPIOC, GPIO_PIN_13, 1);
+        for (int i = 0; i < 50000; i++);
+	}
+}
+
+void process2(){
+	while(1){
+		//GPIOC_ODR |=  GPIOC13;
+		set_pin(GPIOC, GPIO_PIN_13, 0);
+        for (int i = 0; i < 25000; i++);
+		//GPIOC_ODR &= ~GPIOC13;
+        set_pin(GPIOC, GPIO_PIN_13, 1);
+        for (int i = 0; i < 25000; i++);
+	}
+}
+
 
 void kernel(){
 	
@@ -22,13 +46,15 @@ void kernel(){
     GPIOC_CRH   |= 0x00200000;
 	
 	startScheduler();
+	createNewProcess(process1);
 	
-    while(1){
+    /*while(1){
 		//GPIOC_ODR |=  GPIOC13;
 		set_pin(GPIOC, GPIO_PIN_13, 0);
         for (int i = 0; i < 50000; i++);
 		//GPIOC_ODR &= ~GPIOC13;
         set_pin(GPIOC, GPIO_PIN_13, 1);
         for (int i = 0; i < 50000; i++);
-	}
+	}*/
+	process2();
 }
