@@ -1,5 +1,6 @@
 #include "process.h"
 #include "../context_switching/context_switching.h"
+#include "../memory_management/memory.h"
 
 
 
@@ -10,7 +11,27 @@
 	2) Immitate that a SysTick interrupt has already happened. This means that
 */
 __attribute__((naked)) void createNewProcess(void *address){
-	//((struct PCB *)(0x20000000))->func_addr = address;
+	// Push everything to the stack
+	__asm volatile("push {r0 - r12}");
+
+	// Find an available stack frame where the process gonna live
+	__asm volatile(
+		"push {r0} \n"
+		"push {lr} \n"		// Witout it won't work beacause we have "naked" attribute
+	);
+	findAvailableProcessPage();	// The result is gonna be stored in r0 (EABI convention)
+
+	// Set to one the proc_state_byte
+	__asm volatile(
+		""
+		//	"mov r1, "
+		);
+
+	__asm volatile(
+		"pop {lr} \n"			// Witout it won't work beacause we have "naked" attribute
+		"pop {r0}"
+	);
+
 	// Set stack pointer. The stack must NEVER overlap with a stack of another process
 	__asm volatile(
 		"mov r1, r0 \n"	// Store address which is stored in r0
@@ -62,6 +83,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 	__asm volatile(
 		"mov lr, r12 \n"
 		"msr msp, r3 \n"
+		"pop {r0 - r12} \n"
 		/*"pop {r0, r5} \n"
 		"pop {r1} \n"
 		"pop {r0} \n"*/

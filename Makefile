@@ -5,25 +5,28 @@ LD = arm-none-eabi-ld
 CFLAGS = -mthumb -mcpu=cortex-m3 -g -c -O0
 
 
-all: boot.s kernel.c peripherals interrupts context_switching.o process.o
+all: boot.s kernel.c peripherals interrupts context_switching.o process.o memory.o
 	$(AS) -g boot.s -o boot.o
 	$(CC) $(CFLAGS) kernel.c -o kernel.o
-	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o #The linker script is needed
+	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o #The linker script is needed
 	$(OBJCOPY) -O binary kernel.elf boot.bin
 	make clean_obj
-	
+
 
 peripherals: peripherals/gpio.h peripherals/gpio.c
 	$(CC) $(CFLAGS) peripherals/gpio.c -o gpio.o
-	
+
 interrupts: interrupts/interrupt.c interrupts/interrupt.h
 	$(CC) $(CFLAGS) interrupts/interrupt.c -o interrupt.o
-	
+
 context_switching.o: context_switching/context_switching.c context_switching/context_switching.h
 	$(CC) $(CFLAGS) context_switching/context_switching.c -o context_switching.o
-	
+
 process.o: process/process.c process/process.h
 	$(CC) $(CFLAGS) process/process.c -o process.o
+
+memory.o: memory_management/memory.c memory_management/memory.c
+	$(CC) $(CFLAGS) memory_management/memory.c -o memory.o
 
 
 
@@ -40,7 +43,12 @@ debug: flash
 # Run * make clean * if you want to remove all the additionally generated files and keep the source files only
 clean:
 	rm -f *.o *.elf *.bin
-	
-	
+
+
 clean_obj:
 	rm -f *.o
+
+
+disasm:
+	arm-none-eabi-objdump -D kernel.elf > disassembly.txt
+	vim disassembly.txt
