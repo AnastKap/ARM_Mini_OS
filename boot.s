@@ -4,7 +4,9 @@
 
 .word 0x20005000	// Set stack pointer
 .word kernel_start
-.rept 52
+.word 0
+.word HardFault_ISR
+.rept 44
 	.byte 0
 .endr
 .word SysTick_ISR

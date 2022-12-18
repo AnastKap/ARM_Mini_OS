@@ -10,51 +10,35 @@
 #define RCC_APB2ENR   *(volatile uint32_t *)(RCC_BASE   + 0x18)
 #define RCC_IOPCEN   (1<<4)
 
-#define GPIOC13 (1 << 13UL)
 
 void process1(){
+	uint32_t i;
 	while(1){
-		//GPIOC_ODR |=  GPIOC13;
-		set_pin(GPIOC, GPIO_PIN_13, 0);
-        for (int i = 0; i < 50000; i++);
-		//GPIOC_ODR &= ~GPIOC13;
-        set_pin(GPIOC, GPIO_PIN_13, 1);
-        for (int i = 0; i < 50000; i++);
+		setPin(GPIOC, GPIO_PIN_13, 0);
+    for (i = 0; i < 100000; i++);
+    setPin(GPIOC, GPIO_PIN_13, 1);
+    for (i = 0; i < 100000; i++);
 	}
 }
 
 void process2(){
+	uint32_t i;
 	while(1){
-		//GPIOC_ODR |=  GPIOC13;
-		set_pin(GPIOC, GPIO_PIN_13, 0);
-        for (int i = 0; i < 25000; i++);
-		//GPIOC_ODR &= ~GPIOC13;
-        set_pin(GPIOC, GPIO_PIN_13, 1);
-        for (int i = 0; i < 25000; i++);
+		setPin(GPIOC, GPIO_PIN_13, 0);
+		for (i = 0; i < 500000; i++);
+		setPin(GPIOC, GPIO_PIN_13, 1);
+		for (i = 0; i < 500000; i++);
 	}
 }
 
 
 void kernel(){
-	
-	config_pin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
-	/*set_systick_reload(0x00ffffff);
-	enable_systick();*/
-	
 	RCC_APB2ENR |= RCC_IOPCEN;
-	GPIOC_CRH   &= 0xFF0FFFFF;
-    GPIOC_CRH   |= 0x00200000;
-	
+
+	configPin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
+
 	startScheduler();
 	createNewProcess(process1);
-	
-    /*while(1){
-		//GPIOC_ODR |=  GPIOC13;
-		set_pin(GPIOC, GPIO_PIN_13, 0);
-        for (int i = 0; i < 50000; i++);
-		//GPIOC_ODR &= ~GPIOC13;
-        set_pin(GPIOC, GPIO_PIN_13, 1);
-        for (int i = 0; i < 50000; i++);
-	}*/
+
 	process2();
 }

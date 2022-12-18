@@ -31,4 +31,9 @@ void setSystickReload(uint32_t value);
 // Enable SysTick along with its interrupt; First the reload value must have been loaded
 void enableSystick();
 
+
+
+// Interrupts
+__attribute__((interrupt("FIQ"))) void HardFault_ISR();
+
 #endif

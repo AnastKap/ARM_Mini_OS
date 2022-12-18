@@ -1,5 +1,4 @@
 symbol-file kernel.elf
 break SysTick_ISR
-break process1
 target extended-remote localhost:3333
 mon reset

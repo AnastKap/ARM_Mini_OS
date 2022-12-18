@@ -26,3 +26,8 @@ void enableSystick(){
 	SYST_CSR = current | 0b111;
 	SYST_CVR = 100000;
 }
+
+
+
+__attribute__((interrupt("FIQ"))) void HardFault_ISR(){
+}
