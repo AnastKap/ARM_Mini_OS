@@ -32,16 +32,38 @@ void process2(){
 	}
 }
 
+void process3(){
+	uint32_t i;
+	while(1){
+		setPin(GPIOC, GPIO_PIN_13, 0);
+		for (i = 0; i < 10000; i++);
+		setPin(GPIOC, GPIO_PIN_13, 1);
+		for (i = 0; i < 10000; i++);
+	}
+}
+
+void process4(){
+	uint32_t i;
+	while(1){
+		setPin(GPIOC, GPIO_PIN_13, 0);
+		for (i = 0; i < 200000; i++);
+		setPin(GPIOC, GPIO_PIN_13, 1);
+		for (i = 0; i < 200000; i++);
+	}
+}
+
 
 void kernel(){
 	initProcessPages();
-
 	RCC_APB2ENR |= RCC_IOPCEN;
 
 	configPin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
 
 	startScheduler();
 	createNewProcess(process1);
+	createNewProcess(process2);
+	createNewProcess(process3);
+	createNewProcess(process4);
 
 	process2();
 }

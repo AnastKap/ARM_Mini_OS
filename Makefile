@@ -5,7 +5,7 @@ LD = arm-none-eabi-ld
 CFLAGS = -mthumb -mcpu=cortex-m3 -g -c -O0
 
 
-all: boot.s kernel.c peripherals interrupts context_switching.o process.o memory.o
+all: boot.s kernel.c gpio.o interrupt.o context_switching.o process.o memory.o
 	$(AS) -g boot.s -o boot.o
 	$(CC) $(CFLAGS) kernel.c -o kernel.o
 	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o #The linker script is needed
@@ -13,10 +13,10 @@ all: boot.s kernel.c peripherals interrupts context_switching.o process.o memory
 	make clean_obj
 
 
-peripherals: peripherals/gpio.h peripherals/gpio.c
+gpio.o: peripherals/gpio.h peripherals/gpio.c
 	$(CC) $(CFLAGS) peripherals/gpio.c -o gpio.o
 
-interrupts: interrupts/interrupt.c interrupts/interrupt.h
+interrupt.o: interrupts/interrupt.c interrupts/interrupt.h
 	$(CC) $(CFLAGS) interrupts/interrupt.c -o interrupt.o
 
 context_switching.o: context_switching/context_switching.c context_switching/context_switching.h

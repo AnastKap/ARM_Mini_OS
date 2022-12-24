@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 
-#define PROCESS_PAGE_SIZE                 1000
+#define PROCESS_PAGE_SIZE                 100
 #define FIRST_PROCESS_PAGE_ADDR           0x20004000
 #define PROCESS_PAGE_MAX_STARTING_ADDR    0x20005000 - PROCESS_PAGE_SIZE
 

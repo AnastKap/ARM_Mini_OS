@@ -2,7 +2,7 @@
 .thumb
 .syntax unified
 
-.word 0x20005000	// Set stack pointer
+.word 0x20002000	// Set stack pointer
 .word kernel_start
 .word 0
 .word HardFault_ISR
@@ -15,8 +15,8 @@
 kernel_start:
 	cpsie f
 	b kernel
-	
-	
+
+
 .thumb_func
 /*SysTick_ISR:
 	push {r0}
@@ -33,13 +33,13 @@ kernel_start:
 	mrs r0, psp
 	add r1, r1, #4
 	str r0, [r1]
-	
+
 	bl scheduleNextProcess
-	
+
 	add sp, sp, #0x18
 	str process2, [sp]
 	sub sp, sp, #0x18
-	
+
 	ldr r0, current_PCB
 	ldr r0, [r0]
 	mov r1, r0
@@ -52,7 +52,7 @@ kernel_start:
 	add r1, r1, #4
 	ldr r0, [r1]
 	msr psp, r0
-	
+
 	bx lr
-	
+
 current_PCB: .word current_PCB_ptr */

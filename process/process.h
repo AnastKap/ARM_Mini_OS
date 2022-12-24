@@ -11,7 +11,6 @@ struct PCB{
 	uint32_t stored_registers[PCB_REGISTERS_STORED];
 	uint32_t pid;
 	uint32_t state;
-	void (*func_addr)();
 };
 
 

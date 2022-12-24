@@ -39,6 +39,7 @@
 
 // General definitions
 #define SCHEDULER_INTERVAL		0x00ffffff
+#define TOTAL_NUM_OF_PCB      2
 
 
 // Starts the scheduler who is responsible for the context switching

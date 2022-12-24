@@ -17,10 +17,34 @@ __attribute__((naked)) void createNewProcess(void *address){
 	// Find an available stack frame where the process gonna live
 	__asm volatile(
 		"push {r0} \n"
-		"push {lr} \n"		// Witout it won't work beacause we have "naked" attribute
+		"push {lr} \n"		// Witout it won't work because we have "naked" attribute
 	);
-	findAvailableProcessPage();	// The result is gonna be stored in r0 (EABI convention)
+	uint32_t proc_addr = findAvailableProcessPage();	// The result is gonna be stored in r0 (EABI convention)
+	//uint32_t proc_addr = 0x20002000;
 
+	// Do arithmetic to set stack pointer
+	__asm volatile(
+		"mov r2, r0 \n"
+		"mov r10, r0 \n"
+		"add r2, r2, %0 \n"
+		"push {r2}"
+	: :"i" (PROCESS_PAGE_SIZE));
+	//*(uint32_t *) proc_addr = 1; //set first bit -> page is used
+	__asm volatile(
+		"mov r2, 1 \n"
+		"movt r2, 0 \n"
+		"stm r0, {r2} \n"
+	);
+
+	//current_PCB_ptr = proc_addr + 4;
+	__asm volatile(
+		"add r0, r0, #4 \n"
+		"ldr r2, _current_PCB \n"
+		"stm r2, {r0}"
+	);
+
+
+	//add_to_PCB_list((proc_addr+1),1); //next word of page is used for storing PCB
 	// Set to one the proc_state_byte
 	__asm volatile(
 		""
@@ -28,6 +52,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 		);
 
 	__asm volatile(
+		"pop {r2} \n"
 		"pop {lr} \n"			// Witout it won't work beacause we have "naked" attribute
 		"pop {r0}"
 	);
@@ -38,10 +63,10 @@ __attribute__((naked)) void createNewProcess(void *address){
 		//"add r1, r1, #1 \n"
 		//"add r1, r1 , #4 \n"
 		"mov r12, lr \n" // Store lr
-		"mov r0, #0x4000 \n"
-		"movt r0, #0x2000 \n"
+		//"mov r0, #0x4000 \n"
+		//"movt r0, #0x2000 \n"
 		"mrs r3, msp \n"
-		"msr msp, r0 \n"
+		"msr msp, r2 \n"
 		);
 
 	// Immitate that an interrupt has happened
@@ -63,11 +88,12 @@ __attribute__((naked)) void createNewProcess(void *address){
 
 	// Fill the stored register entries of the PCB
 	__asm volatile(
-		"push {r0} \n"
-		"ldr r0, _current_PCB \n"
-		"mov r1, r0 \n"
-		"add r0, r0, #4 \n"
-		"stmia r0, {r1 - r12, lr} \n"
+		"push {r0} \n"  //save r0 current value
+		"ldr r0, _current_PCB \n" //load to r0 the address of vurrent PCB
+		"ldr r0, [r0] \n" //load from address the current PCB struct
+		"mov r1, r0 \n" //save current PCB struct to r1
+		"add r0, r0, #4 \n" //move r0 4bytes away from current PCB struct
+		"stmia r0, {r1 - r12, lr} \n" //
 		"pop {r0} \n"
 		"str r0, [r1] \n"
 		"add r1, r1, #56\n"
@@ -77,7 +103,16 @@ __attribute__((naked)) void createNewProcess(void *address){
 		"mrs r0, psp\n"
 		"add r1, r1, #4\n"
 		"str r0, [r1] \n"
-		"_current_PCB: .word 0x20002000"
+		"_current_PCB: .word current_PCB_ptr"
+		);
+
+
+		//current_PCB_ptr = 0x20003000;
+	__asm volatile(
+			"mov r0, #0x3000\n"
+			"movt r0, #0x2000 \n"
+			"ldr r2, _current_PCB \n"
+			"stm r2, {r0}"
 		);
 
 	__asm volatile(
@@ -89,4 +124,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 		"pop {r0} \n"*/
 		"bx lr \n"
 		);
+
+
+
 }

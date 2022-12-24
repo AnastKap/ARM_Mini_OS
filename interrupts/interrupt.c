@@ -12,7 +12,7 @@ void attachHandler(void *mem_address, void *handler_address){
 
 
 
-/* 
+/*
  * SysTick - specific definitions
  */
 
