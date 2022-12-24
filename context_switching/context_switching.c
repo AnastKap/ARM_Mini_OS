@@ -70,6 +70,9 @@ __attribute__ ((naked)) void SysTick_ISR(){
 		"mrs r0, psp\n"
 		"add r1, r1, #4\n"
 		"str r0, [r1] \n"
+		"mrs r0, psr \n"
+		"add r1, r1, #4\n"
+		"str r0, [r1] \n"
 		"dsb \n isb \n"
 		"current_PCB: .word current_PCB_ptr"
 	);
@@ -90,6 +93,16 @@ __attribute__ ((naked)) void SysTick_ISR(){
 		"add r1, r1, #4 \n"
 		"ldr r0, [r1] \n"
 		"msr psp, r0 \n"
+		"add r1, r1, #4 \n"
+		"ldr r0, [r1] \n"
+		"msr psr, r0 \n"
+
+		"ldr r0, current_PCB \n"
+		"ldr r0, [r0] \n"
+		"ldr r1, [r0, #4]\n"
+		"ldr r0, [r0] \n"
+
+
 		"dsb \n isb \n"
 		"bx lr"
 		);

@@ -39,6 +39,7 @@
 #define GPIOB 2
 #define GPIOC 3
 
+#define GPIO_PIN_12 12
 #define GPIO_PIN_13 13
 
 
