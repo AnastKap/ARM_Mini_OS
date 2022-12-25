@@ -37,9 +37,9 @@ void process3(){
 	uint32_t i;
 	while(1){
 		setPin(GPIOB, GPIO_PIN_12, 0);
-		for (i = 0; i < 100000; i++);
+		for (i = 0; i < 200000; i++);
 		setPin(GPIOB, GPIO_PIN_12, 1);
-		for (i = 0; i < 100000; i++);
+		for (i = 0; i < 200000; i++);
 	}
 }
 

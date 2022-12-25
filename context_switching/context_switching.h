@@ -38,7 +38,7 @@
 /* Context switching is achieved using the SysTick and the interrupts that it produces in preset intervals */
 
 // General definitions
-#define SCHEDULER_INTERVAL		0x0000ffff
+#define SCHEDULER_INTERVAL		0x00000fff
 #define TOTAL_NUM_OF_PCB      2
 
 

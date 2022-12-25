@@ -88,23 +88,29 @@ __attribute__((naked)) void createNewProcess(void *address){
 
 	// Fill the stored register entries of the PCB
 	__asm volatile(
-		"push {r0} \n"  //save r0 current value
-		"ldr r0, _current_PCB \n" //load to r0 the address of vurrent PCB
-		"ldr r0, [r0] \n" //load from address the current PCB struct
-		"mov r1, r0 \n" //save current PCB struct to r1
-		"add r0, r0, #4 \n" //move r0 4bytes away from current PCB struct
-		"stmia r0, {r1 - r12, lr} \n" //
+		"push {r0} \n"
+		"mrs r0, psr \n"
+		"push {r0} \n"
+		"ldr r0, _current_PCB \n"
+		"ldr r0, [r0] \n"
+		"push {r0} \n"
+		"add r0, r0, #4 \n"
+		"stmia r0, {r1 - r12, lr} \n"
 		"pop {r0} \n"
-		"str r0, [r1] \n"
-		"add r1, r1, #56\n"
+		"mov r1, r0 \n"
+		"pop {r0} \n"
+		"str r0, [r1, #56] \n"		// Store psr
+		"pop {r0} \n"
+		"str r0, [r1] \n"					// Store inital r0
 		"mrs r0, msp\n"
-		//"add r0, r0, #4 \n"
-		"str r0, [r1] \n"
+		"str r0, [r1, #60] \n"
 		"mrs r0, psp\n"
-		"add r1, r1, #4\n"
-		"str r0, [r1] \n"
+		"str r0, [r1, #64] \n"
+
+
+		"dsb \n isb \n"
 		"_current_PCB: .word current_PCB_ptr"
-		);
+	);
 
 
 		//current_PCB_ptr = 0x20003000;
