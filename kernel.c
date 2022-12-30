@@ -4,6 +4,7 @@
 #include "process/process.h"
 #include "memory_management/memory.h"
 #include "clock/clock.h"
+#include "timers/timers.h"
 #include <stdint.h>
 
 #define ICSR		*(volatile uint32_t *) 0xE000ED04
@@ -14,9 +15,9 @@ void process1(){
 	uint32_t i;
 	while(1){
 		setPin(GPIOC, GPIO_PIN_13, 0);
-    for (i = 0; i < 25000; i++);
+    for (i = 0; i < 250000; i++);
     setPin(GPIOC, GPIO_PIN_13, 1);
-    for (i = 0; i < 25000; i++);
+    for (i = 0; i < 250000; i++);
 	}
 }
 
@@ -53,19 +54,38 @@ void process4(){
 
 void kernel(){
 	initProcessPages();
-	enable_external_clock();
+	//enable_external_clock();
 	enable_gpio_clocks();
 	enable_timer_clocks();
-	enable_external_clock_pll(4);
+	//enable_external_clock_pll(4);
 
 	configPin(GPIOB, GPIO_PIN_12, OUTPUT_PUSH_PULL);
 	configPin(GPIOB, GPIO_PIN_13, OUTPUT_PUSH_PULL);
 	configPin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
 
+	setPin(GPIOC,GPIO_PIN_13,0);
+
+	counter(TIM2,UP,0xffff);
+	//process1();
+
+	uint32_t *temp;
+	temp = TIM2+TIMX_SR;
+	while(1){ //polling
+		/*
+		if((*temp)&&0x0001 == 0x0001){
+			process1();
+			break;
+		}*/
+	}
+
+	/*
 	startScheduler();
 	createNewProcess(process1);
 	createNewProcess(process2);
 	createNewProcess(process3);
 
 	process1();
+	*/
+
+
 }
