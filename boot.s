@@ -38,7 +38,7 @@
 .word 0
 .word 0
 .word 0
-.word TIM2_ISR
+.word TIM2_ISR //TIM2_ISR must be located at 0x0000_00B0
 
 .thumb_func
 kernel_start:
