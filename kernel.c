@@ -4,7 +4,6 @@
 #include "process/process.h"
 #include "memory_management/memory.h"
 #include "clock/clock.h"
-#include "timers/timers.h"
 #include <stdint.h>
 
 #define ICSR		*(volatile uint32_t *) 0xE000ED04
@@ -65,17 +64,17 @@ void kernel(){
 
 	setPin(GPIOC,GPIO_PIN_13,0);
 
-	counter(TIM2,UP,0xffff);
+	setTimer(TIM2,UP,0xffff);
 	//process1();
 
 	uint32_t *temp;
 	temp = TIM2+TIMX_SR;
 	while(1){ //polling
-		/*
+
 		if((*temp)&&0x0001 == 0x0001){
 			process1();
 			break;
-		}*/
+		}
 	}
 
 	/*
