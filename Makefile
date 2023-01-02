@@ -5,10 +5,10 @@ LD = arm-none-eabi-ld
 CFLAGS = -mthumb -mcpu=cortex-m3 -g -c -O0
 
 
-all: boot.s kernel.c gpio.o interrupt.o context_switching.o process.o memory.o clock.o timers.o
+all: boot.s kernel.c gpio.o interrupt.o context_switching.o process.o memory.o clock.o
 	$(AS) -g boot.s -o boot.o
 	$(CC) $(CFLAGS) kernel.c -o kernel.o
-	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o clock.o timers.o #The linker script is needed
+	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o clock.o#The linker script is needed
 	$(OBJCOPY) -O binary kernel.elf boot.bin
 	make clean_obj
 
@@ -31,8 +31,6 @@ memory.o: memory_management/memory.c memory_management/memory.h
 clock.o: clock/clock.c clock/clock.h
 	$(CC) $(CFLAGS) clock/clock.c -o clock.o
 
-timers.o: timers/timers.c timers/timers.h
-	$(CC) $(CFLAGS) timers/timers.c -o timers.o
 
 
 
