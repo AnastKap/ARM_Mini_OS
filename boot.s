@@ -10,6 +10,35 @@
 	.byte 0
 .endr
 .word SysTick_ISR
+.word 0   //sorry taso, einai asxhmo to kserw
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word 0
+.word TIM2_ISR
 
 .thumb_func
 kernel_start:
