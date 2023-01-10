@@ -33,6 +33,10 @@
 #define TIM6EN        4
 #define TIM7EN        5
 
+// Bit shifts for ADC enable
+#define ADC1EN        9
+#define ADC2EN        10
+#define ADC3EN        15
 
 // General bit shift Definitions
 #define PREDIV1SRC    16
@@ -53,6 +57,9 @@ void enable_gpio_clocks();
 
 // Enable timer enable_gpio_clocks
 void enable_timer_clocks();
+
+// Enable all the ADC clocks
+void enable_adc_clocks();
 
 // Set and enable external clock PLL
 void enable_external_clock_pll(uint8_t multiplier);

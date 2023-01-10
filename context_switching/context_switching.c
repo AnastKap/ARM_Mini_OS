@@ -35,7 +35,7 @@ void scheduleNextProcess(){
 		last_user_process = current_PCB_ptr;
 		return;
 	}
-	for(uint32_t i = ((uint32_t)last_user_process - 4 +PROCESS_PAGE_SIZE); i < PROCESS_PAGE_MAX_STARTING_ADDR; i += PROCESS_PAGE_SIZE){
+	for(uint32_t i = ((uint32_t)last_user_process - 4 + PROCESS_PAGE_SIZE); i < PROCESS_PAGE_MAX_STARTING_ADDR; i += PROCESS_PAGE_SIZE){
 		if(*(uint32_t *)i && (((uint32_t)current_PCB_ptr - 4) != i)){
 			current_PCB_ptr = i + 4;
 			last_user_process = current_PCB_ptr;
