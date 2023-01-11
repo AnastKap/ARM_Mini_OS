@@ -43,7 +43,7 @@ void* malloc(uint16_t size){
     cur_addr += length + 2;
     length = *(uint16_t*)cur_addr;
   }
-  if(cur_addr + 1 + size > KERNEL_USEABLE_RAM_END) return 0;
+  if(cur_addr + 1 + size > DALLOC_ENDING_ADDR) return 0;
   else{
     *(uint16_t*)cur_addr = size;
     return (void*)(cur_addr + 2);

@@ -38,7 +38,7 @@ uint32_t findAvailableProcessPage();
 */
 
 #define DALLOC_STARTING_ADDR        0x20002000 // The starting address of the space where dynamically allocated memory will be stored
-#define DALLOC_ENDING_ADDR          0x20003000
+#define DALLOC_ENDING_ADDR          KERNEL_USEABLE_RAM_END
 
 void initDallocSpace();
 void* malloc(uint16_t size);
