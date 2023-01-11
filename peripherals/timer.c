@@ -1,10 +1,7 @@
 #include "timer.h"
 #include <stdint.h>
 
-/*-------------------------------------------------------------------------------------------------------------------*/
-/*    TIMERS    */
-/*-------------------------------------------------------------------------------------------------------------------*/
-
+/*
 void setTimer(uint32_t timer,uint8_t direction,uint16_t value){
   uint32_t *curr; //pointer to registers addresses
 
@@ -25,4 +22,4 @@ void setPWM(uint32_t timer, uint32_t duty_cycle, uint32_t freq){
 	curr = timer+TIMx_CCR1; //using just the 1st channel
 	*curr = duty_cycle;
 
-}
+}*/
