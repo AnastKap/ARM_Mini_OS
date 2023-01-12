@@ -5,6 +5,7 @@
 #include "process/process.h"
 #include "memory_management/memory.h"
 #include "clock/clock.h"
+#include "peripherals/timer.h"
 #include <stdint.h>
 
 
@@ -57,6 +58,16 @@ void testADC(){
 	}
 }
 
+void testTIM2(){
+	setTimer(TIM2,0xff,0xffff,UP);
+	while(1){
+		if((TIM2_SR && (1<<UIF)) == 0x01){
+			TIM2_SR &= 0x00; //manually clear SR
+			setPin(GPIOB, GPIO_PIN_12, 1);
+		}
+	}
+}
+
 
 void kernel(){
 	disableUnalignedAddressFault();
@@ -74,11 +85,17 @@ void kernel(){
 	}
 	configPin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
 
-	startScheduler();
-	createNewProcess(process1);
-	//createNewProcess(process2);
-	createNewProcess(process3);
-	createNewProcess(testADC);
 
-	process1();
+	//startScheduler();
+	//createNewProcess(process1);
+	//createNewProcess(process2);
+	//createNewProcess(process3);
+	//createNewProcess(testADC);
+
+	//process1();
+
+	setPin(GPIOB, GPIO_PIN_12, 0);
+	//process1();
+	testTIM2();
+	//setPWM();
 }

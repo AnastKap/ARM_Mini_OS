@@ -14,4 +14,5 @@
 .thumb_func
 kernel_start:
 	cpsie f
-	b kernel
+	bl kernel
+	b kernel_start
