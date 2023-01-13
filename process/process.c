@@ -101,7 +101,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 		"pop {r0} \n"
 		"str r0, [r1, #56] \n"		// Store psr
 		"pop {r0} \n"
-		"str r0, [r1] \n"					// Store inital r0
+		"str r0, [r1] \n"			// Store inital r0
 		"mrs r0, msp\n"
 		"str r0, [r1, #60] \n"
 		"mrs r0, psp\n"

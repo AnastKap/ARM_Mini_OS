@@ -12,27 +12,27 @@
 #define GPIOA_CRH			*(volatile uint32_t *)(GPIOA_BASE + 0x04)
 #define GPIOA_IDR			*(volatile uint32_t *)(GPIOA_BASE + 0x08)
 #define GPIOA_ODR			*(volatile uint32_t *)(GPIOA_BASE + 0x0c)
-#define GPIOA_BSRR		*(volatile uint32_t *)(GPIOA_BASE + 0x10)
+#define GPIOA_BSRR		    *(volatile uint32_t *)(GPIOA_BASE + 0x10)
 #define GPIOA_BRR			*(volatile uint32_t *)(GPIOA_BASE + 0x14)
-#define GPIOA_LCKR		*(volatile uint32_t *)(GPIOA_BASE + 0x18)
+#define GPIOA_LCKR		    *(volatile uint32_t *)(GPIOA_BASE + 0x18)
 
 // Define port B registers
 #define GPIOB_CRL			*(volatile uint32_t *)(GPIOB_BASE + 0x00)
 #define GPIOB_CRH			*(volatile uint32_t *)(GPIOB_BASE + 0x04)
 #define GPIOB_IDR			*(volatile uint32_t *)(GPIOB_BASE + 0x08)
 #define GPIOB_ODR			*(volatile uint32_t *)(GPIOB_BASE + 0x0c)
-#define GPIOB_BSRR		*(volatile uint32_t *)(GPIOB_BASE + 0x10)
+#define GPIOB_BSRR		    *(volatile uint32_t *)(GPIOB_BASE + 0x10)
 #define GPIOB_BRR			*(volatile uint32_t *)(GPIOB_BASE + 0x14)
-#define GPIOB_LCKR		*(volatile uint32_t *)(GPIOB_BASE + 0x18
+#define GPIOB_LCKR		    *(volatile uint32_t *)(GPIOB_BASE + 0x18
 
 // Define port C registers
 #define GPIOC_CRL			*(volatile uint32_t *)(GPIOC_BASE + 0x00)
 #define GPIOC_CRH			*(volatile uint32_t *)(GPIOC_BASE + 0x04)
 #define GPIOC_IDR			*(volatile uint32_t *)(GPIOC_BASE + 0x08)
 #define GPIOC_ODR			*(volatile uint32_t *)(GPIOC_BASE + 0x0c)
-#define GPIOC_BSRR		*(volatile uint32_t *)(GPIOC_BASE + 0x10)
+#define GPIOC_BSRR		    *(volatile uint32_t *)(GPIOC_BASE + 0x10)
 #define GPIOC_BRR			*(volatile uint32_t *)(GPIOC_BASE + 0x14)
-#define GPIOC_LCKR		*(volatile uint32_t *)(GPIOC_BASE + 0x18)
+#define GPIOC_LCKR		    *(volatile uint32_t *)(GPIOC_BASE + 0x18)
 
 // General definitions
 #define GPIOA 1
@@ -56,10 +56,13 @@
 
 
 // GPIO modes
-#define OUTPUT_PUSH_PULL		  0
-#define OUTPUT_OPEN_DRAIN     1
+#define OUTPUT_PUSH_PULL		0
+#define OUTPUT_OPEN_DRAIN       1
 #define ALT_FUNC_PUSH_PULL		2
 #define ALT_FUNC_OPEN_DRAIN		3
+#define ANALOG                  4
+#define FLOATING_INPUT          5
+#define INPUT_PULL_UP_DOWN      6
 
 
 void configPin(uint8_t port, uint8_t pin, uint8_t gpio_mode);
