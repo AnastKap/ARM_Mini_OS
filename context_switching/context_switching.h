@@ -57,7 +57,7 @@ __attribute__ ((interrupt("FIQ"))) void SysTick_ISR();
 /*
 * Definitions regarding current process
 */
-extern struct PCB * current_PCB_ptr;
+extern struct PCB *current_PCB_ptr;
 
 
 

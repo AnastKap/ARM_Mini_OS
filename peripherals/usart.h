@@ -10,8 +10,8 @@
 #define USART2_BRR      *(volatile uint32_t*)(USART2_BASE + 0x08)
 #define USART2_CR1      *(volatile uint32_t*)(USART2_BASE + 0x0c)
 #define USART2_CR2      *(volatile uint32_t*)(USART2_BASE + 0x10)
-#define USART2_CR2      *(volatile uint32_t*)(USART2_BASE + 0x14)
-#define USART2_CR2      *(volatile uint32_t*)(USART2_BASE + 0x18)
+#define USART2_CR3      *(volatile uint32_t*)(USART2_BASE + 0x14)
+#define USART2_GPTR     *(volatile uint32_t*)(USART2_BASE + 0x18)
 
 
 // USARTx_SR shift bits

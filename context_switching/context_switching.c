@@ -31,18 +31,18 @@ void scheduleNextProcess(){
     //current_PCB_ptr = 0x20004004;
     // If in running in kernel right now
     if(last_user_process == 0){
-        current_PCB_ptr = FIRST_PROCESS_PAGE_ADDR + 4;
+        current_PCB_ptr = (struct PCB*) (FIRST_PROCESS_PAGE_ADDR + 4);
         last_user_process = current_PCB_ptr;
         return;
     }
     for(uint32_t i = ((uint32_t)last_user_process - 4 + PROCESS_PAGE_SIZE); i < PROCESS_PAGE_MAX_STARTING_ADDR; i += PROCESS_PAGE_SIZE){
         if(*(uint32_t *)i && (((uint32_t)current_PCB_ptr - 4) != i)){
-            current_PCB_ptr = i + 4;
+            current_PCB_ptr = (struct PCB*) (i + 4);
             last_user_process = current_PCB_ptr;
             return;
         }
     }
-    current_PCB_ptr = FIRST_PROCESS_PAGE_ADDR + 4;
+    current_PCB_ptr = (struct PCB*) (FIRST_PROCESS_PAGE_ADDR + 4);
     last_user_process = current_PCB_ptr;
     /*if(current_process<TOTAL_NUM_OF_PCB-1) current_process += 1;
     else current_process = 0;
@@ -53,7 +53,7 @@ void scheduleNextProcess(){
 
 }
 
-__attribute__ ((naked)) void SysTick_ISR(){
+__attribute__ ((naked, aligned(8))) void SysTick_ISR(){
     //current_PCB_ptr = 0x20003000;
     __asm volatile(
         "push {r0} \n"
