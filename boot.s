@@ -10,9 +10,14 @@
 	.byte 0
 .endr
 .word SysTick_ISR
+.rept 112
+	.byte 0
+.endr
+.word TIM2_ISR
 
 .thumb_func
 kernel_start:
+	cpsie i
 	cpsie f
 	bl kernel
 	b kernel_start

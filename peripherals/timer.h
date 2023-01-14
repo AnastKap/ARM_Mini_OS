@@ -1,6 +1,8 @@
+#include <stdint.h>
+
 #ifndef TIMER_H
 #define TIMER_H
-#include <stdint.h>
+
 
 //TIM2-11 base addresses
 #define TIM2    0x40000000
@@ -84,7 +86,7 @@
 #define CC2OF 10
 #define CC1OF 9
 #define TIF 8
-#define CC4IF 4	TIM2_CR1 = (0<<CMS0)|(0<<CMS1)|(0<<DIR)|(0<<URS)|(0<<UDIS)|(1<<CEN)|(1<<ARPE);
+#define CC4IF 4
 #define CC3IF 3
 #define CC2IF 2
 #define CC1IF 1
@@ -160,7 +162,7 @@ void setTimer(uint32_t timer,uint8_t direction,uint16_t value);
 void setPWM();
 
 //set timer
-void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction);
+void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en);
 
 
 #endif

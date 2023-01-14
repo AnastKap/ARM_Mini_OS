@@ -40,21 +40,25 @@ void setPWM(){
   //start timer
   TIM2_CNT = (1<<CEN);
 
+
 }
 
-void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction){
+void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en){
   switch(timer){
     case TIM2:
       TIM2_ARR = frequency;
       TIM2_PSC = prescaler;
-      TIM2_CNT = (direction<<DIR)|(1<<ARPE);
+      TIM2_CR1 = (direction<<DIR)|(1<<ARPE);
 
       //force update in order to load settings to above registers
       TIM2_EGR = (1<<UG);
       TIM2_SR &= 0x0;
 
       //start timer
-      TIM2_CR1 = (1<<CEN);
+      TIM2_CNT = 0;
+      TIM2_CR1 |= (1<<CEN);
+
+      TIM2_DIER = (intr_en<<UIE);
       break;
     default:
       break;

@@ -1,5 +1,6 @@
 #include "interrupt.h"
 #include "..//peripherals/gpio.h"
+#include "..//peripherals/timer.h"
 
 
 /*
@@ -27,7 +28,26 @@ void enableSystick(){
 	SYST_CVR = 100000;
 }
 
+void setInterrupt(uint32_t position){
+	if(position<32)
+		NVIC_ISER0 |= (1<<position);
+}
+
+void clearInterrupt(uint32_t position){
+	if(position<32)
+		NVIC_ICER0 |= (1<<position);
+}
 
 
 __attribute__((interrupt("FIQ"))) void HardFault_ISR(){
+	setPin(GPIOB, GPIO_PIN_12, 0);
+}
+
+int led = 0;
+__attribute__((interrupt("IRQ"))) void TIM2_ISR(){
+	//static i;
+	led = ~led;
+	setPin(GPIOB, GPIO_PIN_12, led);
+	setPin(GPIOB, GPIO_PIN_5, led);
+	TIM2_SR &=0x0; //clear status register
 }

@@ -6,6 +6,7 @@
 #include "memory_management/memory.h"
 #include "clock/clock.h"
 #include "peripherals/timer.h"
+#include "peripherals/timer.c"
 #include <stdint.h>
 
 
@@ -59,12 +60,14 @@ void testADC(){
 }
 
 void testTIM2(){
-	setTimer(TIM2,0xff,0xffff,UP);
+	uint32_t *st = &TIM2_SR;
+	uint32_t *cnt = &TIM2_CNT;
+	setPin(GPIOB, GPIO_PIN_12, 0);
+	setTimer(TIM2,0xff,0xffff,UP,1);
+	setInterrupt(TIM2_IRQ);
+	//clearInterrupt(TIM2_IRQ);
 	while(1){
-		if((TIM2_SR && (1<<UIF)) == 0x01){
-			TIM2_SR &= 0x00; //manually clear SR
-			setPin(GPIOB, GPIO_PIN_12, 1);
-		}
+
 	}
 }
 
@@ -77,25 +80,27 @@ void kernel(){
 	enable_gpio_clocks();
 	enable_timer_clocks();
 	enable_adc_clocks();
-	enable_external_clock_pll(4);
+	enable_external_clock_pll(1);
 
 	configPin(GPIOB, GPIO_PIN_12, OUTPUT_PUSH_PULL);
 	for(int i = 0; i < 8; i++){
 		configPin(GPIOA, i, OUTPUT_PUSH_PULL);
 	}
 	configPin(GPIOC, GPIO_PIN_13, OUTPUT_PUSH_PULL);
+	configPin(GPIOB, GPIO_PIN_5 ,OUTPUT_PUSH_PULL);
 
 
-	//startScheduler();
-	//createNewProcess(process1);
+	startScheduler();
+	createNewProcess(process1);
 	//createNewProcess(process2);
 	//createNewProcess(process3);
 	//createNewProcess(testADC);
+	createNewProcess(testTIM2);
 
 	//process1();
 
-	setPin(GPIOB, GPIO_PIN_12, 0);
+
 	//process1();
-	testTIM2();
+	//testTIM2();
 	//setPWM();
 }
