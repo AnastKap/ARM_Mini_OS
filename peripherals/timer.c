@@ -1,29 +1,6 @@
 #include "timer.h"
 #include <stdint.h>
 
-/*
-void setTimer(uint32_t timer,uint8_t direction,uint16_t value){
-  uint32_t *curr; //pointer to registers addresses
-
-  curr = timer+TIMX_DIER;
-  *curr = 0x0001; //enable update interrupt
-
-  curr = timer+TIMX_ARR;
-  *curr = value; //set reload value
-
-  curr = timer+TIMX_CR1;
-  *curr |= (direction<<4)|(0b1); //set direction bit and CEN=1
-}
-
-void setPWM(uint32_t timer, uint32_t duty_cycle, uint32_t freq){
-	setTimer(timer,UP,freq);
-	uint32_t *curr;
-
-	curr = timer+TIMx_CCR1; //using just the 1st channel
-	*curr = duty_cycle;
-
-}*/
-
 void setPWM(){
   //set up PWM parameters
   TIM2_ARR = 0xFFFF; //frequency
@@ -40,21 +17,51 @@ void setPWM(){
   //start timer
   TIM2_CNT = (1<<CEN);
 
+
 }
 
-void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction){
+void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en){
+  /*
+  Set-up TIMx registers to user's values/settings.
+  Force update event (using TIMx_EGR(UG = 1)) to load settings to said registers.
+  Enable counter and enable/disable interrupt.
+  */
   switch(timer){
     case TIM2:
       TIM2_ARR = frequency;
       TIM2_PSC = prescaler;
-      TIM2_CNT = (direction<<DIR)|(1<<ARPE);
-
-      //force update in order to load settings to above registers
+      TIM2_CR1 = (direction<<DIR)|(1<<ARPE);
       TIM2_EGR = (1<<UG);
       TIM2_SR &= 0x0;
-
-      //start timer
-      TIM2_CR1 = (1<<CEN);
+      TIM2_CR1 |= (1<<CEN);
+      TIM2_DIER = (intr_en<<UIE);
+      break;
+    case TIM3:
+      TIM3_ARR = frequency;
+      TIM3_PSC = prescaler;
+      TIM3_CR1 = (direction<<DIR)|(1<<ARPE);
+      TIM3_EGR = (1<<UG);
+      TIM3_SR &= 0x0;
+      TIM3_CR1 |= (1<<CEN);
+      TIM3_DIER = (intr_en<<UIE);
+      break;
+    case TIM4:
+      TIM4_ARR = frequency;
+      TIM4_PSC = prescaler;
+      TIM4_CR1 = (direction<<DIR)|(1<<ARPE);
+      TIM4_EGR = (1<<UG);
+      TIM4_SR &= 0x0;
+      TIM4_CR1 |= (1<<CEN);
+      TIM4_DIER = (intr_en<<UIE);
+      break;
+    case TIM5:
+      TIM5_ARR = frequency;
+      TIM5_PSC = prescaler;
+      TIM5_CR1 = (direction<<DIR)|(1<<ARPE);
+      TIM5_EGR = (1<<UG);
+      TIM5_SR &= 0x0;
+      TIM5_CR1 |= (1<<CEN);
+      TIM5_DIER = (intr_en<<UIE);
       break;
     default:
       break;
