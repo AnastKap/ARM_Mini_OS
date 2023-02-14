@@ -134,3 +134,71 @@ __attribute__((naked)) void createNewProcess(void *address){
 
 
 }
+
+
+void initPipeSpace(){
+	uint32_t ptr = PIPE_STARTING_ADDRESS;
+	uint8_t id = 0;
+	while(id<PIPE_NUM && ptr<PIPE_SPACE+PIPE_STARTING_ADDRESS){
+		used_pipes[id] = 0;
+		*(uint8_t *) ptr = id;
+		*(uint8_t *) (ptr+1) = 0; //initialize pipe counter to 0
+		id++;
+		ptr += PIPE_SIZE;
+	}
+}
+
+//finds the first free pipe space if there is any
+int createPipe(){ 
+	int free_id = -1;
+	for(int i = 0; i<PIPE_NUM; i++){
+		if(used_pipes[i] == 0){
+			free_id	= i;
+			used_pipes[i] = 1;
+			return free_id;
+		}
+	}
+	return free_id;
+}
+
+int readPipeByte(int pipe_id){ //reads from the end to the start of the pipe
+	//chack if pipe id is valid
+	if(pipe_id<PIPE_NUM){
+		uint32_t pipe = PIPE_STARTING_ADDRESS + pipe_id*PIPE_SIZE;
+		uint8_t counter = *(uint8_t *) (pipe+1);
+		//check if there is anything to read
+		if(counter>0){
+			uint8_t value = *(uint8_t *) (pipe+1+counter);
+			*(uint8_t *) (pipe+1+counter) = 0;
+			(*(uint8_t *) (pipe+1))--;
+			return value;
+		}
+		else return 0; //nothing to read
+	}
+	else return -1; //invalid pipe id
+}
+
+
+//succesful write -> 1
+//no space to write -> 0
+//non-existing pipe id -> -1
+int writePipeByte(int pipe_id, uint8_t msg){ //works alright
+	//write if the pipe id exists
+	if(pipe_id<PIPE_NUM){
+		uint32_t pipe = PIPE_STARTING_ADDRESS + pipe_id*PIPE_SIZE; //pipe starting location
+		uint8_t counter = *(uint8_t *) (pipe+1);
+		//write while there is space in the pipe
+		if(counter<PIPE_SIZE-2){
+			*(uint8_t *) (pipe+2+counter) = msg; //pipe+2+counter: free space start location
+			counter++;
+			*(uint8_t *) (pipe+1) = (uint8_t) counter; //update counter
+			return 1; //succesfull write
+		}
+		else 
+			return 0;	//no space to write
+	}
+	else 
+		return -1; //non-existing pipe id
+}
+
+
