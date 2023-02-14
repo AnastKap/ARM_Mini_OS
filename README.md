@@ -100,6 +100,7 @@ The main file that is responsible for starting the kernel is the **boot.s**. Thi
 - [ ] Dynamic allocation
     - [X] malloc()
     - [ ] free()
+- [ ] Inter-Process Communication (IPC)
     
 ## Projects to highlight the usefulness of the OS
 The following projects can be combined to showcase the importance of context-switching
