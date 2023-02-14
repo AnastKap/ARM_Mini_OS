@@ -1,6 +1,8 @@
+#include <stdint.h>
+
 #ifndef TIMER_H
 #define TIMER_H
-#include <stdint.h>
+
 
 //TIM2-11 base addresses
 #define TIM2    0x40000000
@@ -16,6 +18,9 @@
 #define TIM10   0x40015000
 #define TIM11   0x40015400
 
+/*
+        TIM2-5: General purpose timers
+*/
 
 //TIM2 registers
 #define TIM2_CR1    *(volatile uint32_t*) (TIM2+0x00) //control register1
@@ -41,6 +46,81 @@
 
 #define TIM2_DCR    *(volatile uint32_t*) (TIM2+0x48) //DMA control register
 #define TIM2_DMAR   *(volatile uint32_t*) (TIM2+0x4C) //DMA address for full transfer
+
+//TIM3 registers ---------------------------------------------------------------------------------------//
+#define TIM3_CR1    *(volatile uint32_t*) (TIM3+0x00) //control register1
+#define TIM3_CR2    *(volatile uint32_t*) (TIM3+0x04) //control register2
+
+#define TIM3_SMCR   *(volatile uint32_t*) (TIM3+0x08) //slave mode control register
+#define TIM3_DIER   *(volatile uint32_t*) (TIM3+0x0C) //DMA/interrupt enable register
+#define TIM3_SR     *(volatile uint32_t*) (TIM3+0x10) //status register
+#define TIM3_EGR    *(volatile uint32_t*) (TIM3+0x14) //event generation register
+
+#define TIM3_CCMR1  *(volatile uint32_t*) (TIM3+0x18) //capture/compare mode register1
+#define TIM3_CCMR2  *(volatile uint32_t*) (TIM3+0x1C) //capture/compare mode register2
+#define TIM3_CCER   *(volatile uint32_t*) (TIM3+0x20) //capture/compare enable register
+
+#define TIM3_CNT    *(volatile uint32_t*) (TIM3+0x24) //counter
+#define TIM3_PSC    *(volatile uint32_t*) (TIM3+0x28) //prescaler
+#define TIM3_ARR    *(volatile uint32_t*) (TIM3+0x2C) //auto-reload register
+
+#define TIM3_CCR1   *(volatile uint32_t*) (TIM3+0x34) //capture/compare register1
+#define TIM3_CCR2   *(volatile uint32_t*) (TIM3+0x38) //capture/compare register2
+#define TIM3_CCR3   *(volatile uint32_t*) (TIM3+0x3C) //capture/compare register3
+#define TIM3_CCR4   *(volatile uint32_t*) (TIM3+0x40) //capture/compare register4
+
+#define TIM3_DCR    *(volatile uint32_t*) (TIM3+0x48) //DMA control register
+#define TIM3_DMAR   *(volatile uint32_t*) (TIM3+0x4C) //DMA address for full transfer
+
+//TIM4 registers----------------------------------------------------------------------------------------//
+#define TIM4_CR1    *(volatile uint32_t*) (TIM4+0x00) //control register1
+#define TIM4_CR2    *(volatile uint32_t*) (TIM4+0x04) //control register2
+
+#define TIM4_SMCR   *(volatile uint32_t*) (TIM4+0x08) //slave mode control register
+#define TIM4_DIER   *(volatile uint32_t*) (TIM4+0x0C) //DMA/interrupt enable register
+#define TIM4_SR     *(volatile uint32_t*) (TIM4+0x10) //status register
+#define TIM4_EGR    *(volatile uint32_t*) (TIM4+0x14) //event generation register
+
+#define TIM4_CCMR1  *(volatile uint32_t*) (TIM4+0x18) //capture/compare mode register1
+#define TIM4_CCMR2  *(volatile uint32_t*) (TIM4+0x1C) //capture/compare mode register2
+#define TIM4_CCER   *(volatile uint32_t*) (TIM4+0x20) //capture/compare enable register
+
+#define TIM4_CNT    *(volatile uint32_t*) (TIM4+0x24) //counter
+#define TIM4_PSC    *(volatile uint32_t*) (TIM4+0x28) //prescaler
+#define TIM4_ARR    *(volatile uint32_t*) (TIM4+0x2C) //auto-reload register
+
+#define TIM4_CCR1   *(volatile uint32_t*) (TIM4+0x34) //capture/compare register1
+#define TIM4_CCR2   *(volatile uint32_t*) (TIM4+0x38) //capture/compare register2
+#define TIM4_CCR3   *(volatile uint32_t*) (TIM4+0x3C) //capture/compare register3
+#define TIM4_CCR4   *(volatile uint32_t*) (TIM4+0x40) //capture/compare register4
+
+#define TIM4_DCR    *(volatile uint32_t*) (TIM4+0x48) //DMA control register
+#define TIM4_DMAR   *(volatile uint32_t*) (TIM4+0x4C) //DMA address for full transfer
+
+//TIM5 registers----------------------------------------------------------------------------------------//
+#define TIM5_CR1    *(volatile uint32_t*) (TIM5+0x00) //control register1
+#define TIM5_CR2    *(volatile uint32_t*) (TIM5+0x04) //control register2
+
+#define TIM5_SMCR   *(volatile uint32_t*) (TIM5+0x08) //slave mode control register
+#define TIM5_DIER   *(volatile uint32_t*) (TIM5+0x0C) //DMA/interrupt enable register
+#define TIM5_SR     *(volatile uint32_t*) (TIM5+0x10) //status register
+#define TIM5_EGR    *(volatile uint32_t*) (TIM5+0x14) //event generation register
+
+#define TIM5_CCMR1  *(volatile uint32_t*) (TIM5+0x18) //capture/compare mode register1
+#define TIM5_CCMR2  *(volatile uint32_t*) (TIM5+0x1C) //capture/compare mode register2
+#define TIM5_CCER   *(volatile uint32_t*) (TIM5+0x20) //capture/compare enable register
+
+#define TIM5_CNT    *(volatile uint32_t*) (TIM5+0x24) //counter
+#define TIM5_PSC    *(volatile uint32_t*) (TIM5+0x28) //prescaler
+#define TIM5_ARR    *(volatile uint32_t*) (TIM5+0x2C) //auto-reload register
+
+#define TIM5_CCR1   *(volatile uint32_t*) (TIM5+0x34) //capture/compare register1
+#define TIM5_CCR2   *(volatile uint32_t*) (TIM5+0x38) //capture/compare register2
+#define TIM5_CCR3   *(volatile uint32_t*) (TIM5+0x3C) //capture/compare register3
+#define TIM5_CCR4   *(volatile uint32_t*) (TIM5+0x40) //capture/compare register4
+
+#define TIM5_DCR    *(volatile uint32_t*) (TIM5+0x48) //DMA control register
+#define TIM5_DMAR   *(volatile uint32_t*) (TIM5+0x4C) //DMA address for full transfer
 
 //TIMx_CR1 bits
 #define CKD1  9
@@ -84,7 +164,7 @@
 #define CC2OF 10
 #define CC1OF 9
 #define TIF 8
-#define CC4IF 4	TIM2_CR1 = (0<<CMS0)|(0<<CMS1)|(0<<DIR)|(0<<URS)|(0<<UDIS)|(1<<CEN)|(1<<ARPE);
+#define CC4IF 4
 #define CC3IF 3
 #define CC2IF 2
 #define CC1IF 1
@@ -160,7 +240,7 @@ void setTimer(uint32_t timer,uint8_t direction,uint16_t value);
 void setPWM();
 
 //set timer
-void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction);
+void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en);
 
 
 #endif
