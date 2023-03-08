@@ -1,7 +1,0 @@
-symbol-file kernel.elf
-break testTIM2
-break SysTick_ISR
-break HardFault_ISR
-break TIM2_ISR
-target extended-remote localhost:3333
-mon reset
