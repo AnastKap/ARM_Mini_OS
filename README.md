@@ -43,19 +43,23 @@ where *target* can be one of the following
 
 - **flash**: used to build the source and flash the microcontroller
 - **debug**: used to build the source, flash the microcontroller and begin the debug session
-- **clean**: cleans the folder from intermediate files created by the process of building
+- **clean**: cleans the folder from intermediate files created by the process of building and the log files
+- **clean_obj**: cleans the folder from all the object files
+- **disasm**: creates a disassembled version of the binary file
 
 
 ## Using the Debugger
-To debug the microcontroller, two terminals must be opened. In the one type
+To debug the microcontroller type
 ```
 make debug
 ```
-and in the other one
+This automates the process of opening the server to communicate with the STM32 and debug it.
+
+**Notice**: If the debugger doesn't open-up, try first by ensuring that openocd is not executing by typing
 ```
-openocd -f /usr/local/share/openocd/scripts/interface/stlink-v2.cfg -f /usr/local/share/openocd/scripts/board/stm32f103c8_blue_pill.cfg
+pkill openocd
 ```
-**Notice**: Don't let much time to pass till you run openocd, because the gdb-multiarch might timeout
+
 
 ## Context switching in ARM
 The basic concept that an RTOS offers is the ability to run multiple processes simultaneously (in a pseudo-parallel way). This is done through context switching.
@@ -82,6 +86,8 @@ The main file that is responsible for starting the kernel is the **boot.s**. Thi
 
 - **./process**: contains functions and definitions for the processes, like PCB and a function to attach a new process to the scheduler
 
+- **./clock**: here one can find definitions and functions for clock manipulation of the microcontroller and the clock configuration of the internal peripherals
+
 ## To do list
 - [X] **RCC**
     - [X] System clock source from PLL
@@ -100,7 +106,8 @@ The main file that is responsible for starting the kernel is the **boot.s**. Thi
 - [ ] Dynamic allocation
     - [X] malloc()
     - [ ] free()
-    
+- [ ] Inter-Process Communication (IPC)
+
 ## Projects to highlight the usefulness of the OS
 The following projects can be combined to showcase the importance of context-switching
 - Robotic arm

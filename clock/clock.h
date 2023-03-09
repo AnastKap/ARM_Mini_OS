@@ -25,13 +25,6 @@
 #define RCC_IOPDEN   	5
 #define RCC_IOPEEN   	6
 
-// Bit shifts for timer enable
-#define TIM2EN        0
-#define TIM3EN        1
-#define TIM4EN        2
-#define TIM5EN        3
-#define TIM6EN        4
-#define TIM7EN        5
 
 // Bit shifts for ADC enable
 #define ADC1EN        9
@@ -43,25 +36,69 @@
 #define PREDIV1       0
 #define PLLSRC        16
 #define PLLXTPRE      17
-#define PLLMUL        18
 #define PLLON         24
 #define HSEON         16
 #define SW            0
 
 
+
+// RCC_CFGR bit shifts
+#define MCO         24
+#define OTGFSPRE    22
+#define PLLMUL      18
+#define PLLXTPRE    17
+#define PLLSRC      16
+#define ADCPRE      14
+#define PPRE2       11
+#define PPRE1       8
+#define HPRE        4
+#define SWS         2
+#define SW          0
+
+
+
+// RCC_APB1ENR bit shifts
+#define USART2EN      17
+#define TIM2EN        0
+#define TIM3EN        1
+#define TIM4EN        2
+#define TIM5EN        3
+#define TIM6EN        4
+#define TIM7EN        5
+
+
+// RCC_APB2ENR bit shifts
+#define AFIOEN        0
+
+extern volatile uint32_t USEC_WORKING;  // Current time in usec passed from the beginning of the stm32 life
+
 // Enables the external clock
 void enable_external_clock();
 
 // Enable all the GPIO clocks
-void enable_gpio_clocks();
+void enableGpioClocks();
 
 // Enable timer enable_gpio_clocks
 void enable_timer_clocks();
 
 // Enable all the ADC clocks
-void enable_adc_clocks();
+void enableADCClocks();
+
+// Enable the uart2 clocks
+void enable_uart_clocks();
 
 // Set and enable external clock PLL
 void enable_external_clock_pll(uint8_t multiplier);
+
+
+// Get the clock freq in kHz
+uint32_t getClockFreq();
+
+
+// Delay msec
+void delay_msec(uint32_t msec);
+
+// Get usec working
+uint32_t getUsecWorking();
 
 #endif

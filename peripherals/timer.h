@@ -171,22 +171,16 @@
 #define UIF 0
 
 //TIMx_CCMR1 output compare mode bits
-#define OC2CE 15
-#define OC2M2 14
-#define OC2M1 13
-#define OC2M0 12
-#define OC2PE 11
-#define OC2FE 10
-#define CC2S1 9
-#define CC2S0 8
-#define OC1CE 7
-#define OC1M2 6
-#define OC1M1 5
-#define OC1M0 4
-#define OC1PE 3
-#define OC1FE 2
-#define CC1S1 1
-#define CC1S0 0
+#define OC2CE   15
+#define OC2M    12
+#define OC2PE   11
+#define OC2FE   10
+#define CC2S    8
+#define OC1CE   7
+#define OC1M    4
+#define OC1PE   3
+#define OC1FE   2
+#define CC1S    0
 
 //TIMx_CCMR1 input capture mode bits
 //TODO
@@ -237,7 +231,10 @@
 void setTimer(uint32_t timer,uint8_t direction,uint16_t value);
 */
 //PWM mode
-void setPWM();
+
+
+// Frequency given in Hz
+void setPWM(uint32_t frequency);
 
 //set timer
 void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en);

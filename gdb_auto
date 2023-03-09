@@ -1,8 +1,11 @@
 symbol-file kernel.elf
-break testTIM2
-break SysTick_ISR
 break HardFault_ISR
-break TIM2_ISR
-break testPipeWrite
+break delay_msec
+break usart.c:17
+break usart.c:36
+break kernel.c:112
+break music.c:15
 target extended-remote localhost:3333
 mon reset
+set $auto_reload = (0x40000000+0x2C)
+set $counter = (0x40000000+0x24)

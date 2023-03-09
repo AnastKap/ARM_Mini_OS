@@ -10,11 +10,11 @@ all:
 	@make build > $(LOG)
 	@echo "\033[93mBinary file is ready!\033[39m"
 
-build: boot.s kernel.c gpio.o interrupt.o context_switching.o process.o memory.o clock.o adc.o usart.o
+build: boot.s kernel.c gpio.o interrupt.o context_switching.o process.o memory.o clock.o adc.o usart.o timer.o music.o
 	$(AS) -g boot.s -o boot.o
 	$(CC) $(CFLAGS) kernel.c -o kernel.o
 	@echo "------ Linking everything and building the bin file! ------"
-	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o clock.o adc.o usart.o #The linker script is needed
+	$(LD) -T linker.ld -o kernel.elf boot.o kernel.o gpio.o interrupt.o context_switching.o process.o memory.o clock.o adc.o usart.o timer.o music.o #The linker script is needed
 	$(OBJCOPY) -O binary kernel.elf boot.bin
 	@echo "-----------------------------------------------------------"
 	make clean_obj
@@ -48,6 +48,9 @@ timer.o: peripherals/timer.h peripherals/timer.c
 usart.o: peripherals/usart.h peripherals/usart.c
 	$(CC) $(CFLAGS) peripherals/usart.c -o usart.o
 
+# Miscellaneous
+music.o: misc/music.c misc/music.h
+	$(CC) $(CFLAGS) misc/music.c -o music.o
 
 
 # Run * make flash * if you want to build the source and flash it
@@ -61,7 +64,7 @@ flash: all
 debug: flash
 	@echo "\033[93mStarting the debugging session...\033[39m"
 	@echo "------ Enabling debugger communication... ------" >> $(LOG)
-	openocd -f /usr/local/share/openocd/scripts/interface/stlink-v2.cfg -f /usr/local/share/openocd/scripts/board/stm32f103c8_blue_pill.cfg &
+	openocd -f /usr/local/share/openocd/scripts/interface/stlink-v2.cfg -f /usr/local/share/openocd/scripts/board/stm32f103c8_blue_pill.cfg > 2&
 	@gdb-multiarch -x gdb_auto
 	@pkill openocd
 	@echo "\033[93mDebugging session ended.\033[39m"

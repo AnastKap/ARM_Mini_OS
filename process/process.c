@@ -19,7 +19,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 		"push {r0} \n"
 		"push {lr} \n"		// Witout it won't work because we have "naked" attribute
 	);
-	uint32_t proc_addr = findAvailableProcessPage();	// The result is gonna be stored in r0 (EABI convention)
+	/*uint32_t proc_addr = */findAvailableProcessPage();	// The result is gonna be stored in r0 (EABI convention)
 	//uint32_t proc_addr = 0x20002000;
 
 	// Do arithmetic to set stack pointer
@@ -135,6 +135,7 @@ __attribute__((naked)) void createNewProcess(void *address){
 
 }
 
+int used_pipes[PIPE_NUM];
 
 void initPipeSpace(){
 	uint32_t ptr = PIPE_STARTING_ADDRESS;
@@ -149,7 +150,7 @@ void initPipeSpace(){
 }
 
 //finds the first free pipe space if there is any
-int createPipe(){ 
+int createPipe(){
 	int free_id = -1;
 	for(int i = 0; i<PIPE_NUM; i++){
 		if(used_pipes[i] == 0){
@@ -159,16 +160,6 @@ int createPipe(){
 		}
 	}
 	return free_id;
-}
-
-int freePipe(int pipe_id){
-	if(pipe_id<PIPE_NUM){
-		used_pipes[pipe_id] = 0; 
-		uint32_t pipe = PIPE_STARTING_ADDRESS + pipe_id*PIPE_SIZE;
-		*(uint8_t *) (pipe+1) = 0;
-		return 0;
-	}
-	else return -1;
 }
 
 int readPipeByte(int pipe_id){ //reads from the end to the start of the pipe
@@ -204,11 +195,9 @@ int writePipeByte(int pipe_id, uint8_t msg){ //works alright
 			*(uint8_t *) (pipe+1) = (uint8_t) counter; //update counter
 			return 1; //succesfull write
 		}
-		else 
+		else
 			return 0;	//no space to write
 	}
-	else 
+	else
 		return -1; //non-existing pipe id
 }
-
-

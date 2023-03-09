@@ -43,9 +43,8 @@ struct PCB{
 void createNewProcess(void *address);
 
 void initPipeSpace();
-static int used_pipes[PIPE_NUM];
+extern int used_pipes[PIPE_NUM];
 int createPipe();
-int freePipe(int pipe_id);
 int writePipeByte(int pipe_id, uint8_t msg);
 int readPipeByte(int pipe_id);
 
