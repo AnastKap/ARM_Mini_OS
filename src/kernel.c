@@ -10,7 +10,7 @@
 #include "misc/music.h"
 #include <stdint.h>
 
-
+void dukes_of_hazard_music();
 
 void process1(){
     uint32_t i;

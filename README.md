@@ -9,7 +9,7 @@ In order to build and debug this project, someone must have the following tools
 ```
 sudo apt-get install gcc-arm-none-eabi
 ```
-- **OpenOCD** : Used to debug the microcontroller and create a server for gdb-multiarch to connect. Its installation is a little bit complex, but one way that seems to work is thge following:
+- **OpenOCD** : Used to debug the microcontroller and create a server for gdb-multiarch to connect. Its installation is a little bit complex, but one way that seems to work is the following:
 ```
 git clone https://github.com/openocd-org/openocd
 cd openocd
