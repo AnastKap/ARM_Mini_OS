@@ -51,7 +51,8 @@ void process3(){
 }
 
 void testADC(){
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i <= 8; i++){
+        if(i == 1) continue;
         configPin(GPIOA, i, OUTPUT_PUSH_PULL);
     }
     uint8_t seq[] = {8};
@@ -59,7 +60,8 @@ void testADC(){
     while(1){
         uint16_t data = readDataConverted() >> 4;
         for(int i = 0; i < 8; i++){
-            setPin(GPIOA, i, data%2);
+            if(i == 1) setPin(GPIOA, 8, data%2);
+            else setPin(GPIOA, i, data%2);
             data /= 2;
         }
     }
@@ -81,7 +83,9 @@ void testDelay(){
     configPin(GPIOB, GPIO_PIN_12, OUTPUT_PUSH_PULL);
     int val = 1;
     while(1){
-        delay_msec(1000);
+        uint32_t current = getUsecWorking();
+        //delay_msec(1000);
+        while(getUsecWorking() - current < 1000000);
         setPin(GPIOB, GPIO_PIN_12, val);
         val = ~val;
     }
@@ -100,6 +104,17 @@ void testTIM2(){
 			TIM2_SR &= 0x00; //manually clear SR
 			setPin(GPIOB, GPIO_PIN_12, 1);
 		}
+	}
+}
+
+void testTIM4(){
+    configPin(GPIOB, GPIO_PIN_13, OUTPUT_PUSH_PULL);
+	setPin(GPIOB, GPIO_PIN_13, 0);
+	setTimer(TIM4,0xff,0xffff,UP,1);
+	setInterrupt(TIM4_IRQ);
+	//clearInterrupt(TIM2_IRQ);
+	while(1){
+
 	}
 }
 
@@ -190,6 +205,7 @@ void play_music(){
         play_note("A2", 2);
         play_pause(4);
 
+        dukes_of_hazard_music();
     }
     //play_note("A2", 4);
     //play_note("A2", 4);
@@ -238,11 +254,12 @@ void kernel(){
     startScheduler();
     createNewProcess(process1);
     //createNewProcess(testUSART);
-    //createNewProcess(testDelay);
+    createNewProcess(testDelay);
     //createNewProcess(test_pwm);
-    //createNewProcess(testADC);
+    createNewProcess(testADC);
     //createNewProcess(testTIM2);
-    createNewProcess(play_music);
+    createNewProcess(testTIM4);
+    //createNewProcess(play_music);
     //createNewProcess(dukes_of_hazard_music);
 
     process1();
