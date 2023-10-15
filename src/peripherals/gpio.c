@@ -50,7 +50,9 @@
 }
 
 
-
+/*
+ * Configure selected pin mode
+ */
 
 void configPin(uint8_t port, uint8_t pin, uint8_t gpio_mode){
     uint32_t cnfy, modey;
@@ -69,7 +71,9 @@ void configPin(uint8_t port, uint8_t pin, uint8_t gpio_mode){
     }
 }
 
-
+/*
+ * Set pin's value
+ */
 
 void setPin(uint8_t port, uint8_t pin, uint8_t value){
     uint32_t current;

@@ -26,13 +26,19 @@ uint32_t findAvailableProcessPage(){
     return 0;
 }
 
-
+/*
+ * Initialize Dynamic Allocation (Dalloc) memory space.
+ */
 
 void initDallocSpace(){
     for(uint32_t i = DALLOC_STARTING_ADDR; i <= KERNEL_USEABLE_RAM_END; i++){
         *(uint32_t*)i = 0;
     }
 }
+
+/*
+ * Dynamic allocation function.
+ */
 
 /* Take care of the probability that when zero found, the data don't fit in */
 void* malloc(uint16_t size){

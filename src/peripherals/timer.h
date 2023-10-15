@@ -225,18 +225,10 @@
 #define UP 0
 #define DOWN 1
 
-
-/*
-//simple counters
-void setTimer(uint32_t timer,uint8_t direction,uint16_t value);
-*/
-//PWM mode
-
-
 // Frequency given in Hz
 void setPWM(uint32_t frequency);
 
-//set timer
+// Set Timers 2-3-4-5 to user's params
 void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en);
 
 

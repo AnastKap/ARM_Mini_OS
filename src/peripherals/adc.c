@@ -1,6 +1,7 @@
 #include "adc.h"
 #include <stdint.h>
 
+// TODO: 
 void startContinuousConversion(uint8_t sequence[], uint8_t seq_len){
   uint8_t i;
   //ADC1_CR2 |= (1 << CAL);
@@ -20,6 +21,9 @@ void startContinuousConversion(uint8_t sequence[], uint8_t seq_len){
   ADC1_CR2 |= (1 << ADON);
 }
 
+/*
+ * Returns converted data
+ */
 uint16_t readDataConverted(){
   while(!((ADC1_SR >> EOC) & 1));
   ADC1_SR &= ~(1 << EOC);

@@ -64,7 +64,7 @@
 #define FLOATING_INPUT          5
 #define INPUT_PULL_UP_DOWN      6
 
-
+// Configure and set pin
 void configPin(uint8_t port, uint8_t pin, uint8_t gpio_mode);
 void setPin(uint8_t port, uint8_t pin, uint8_t value);
 

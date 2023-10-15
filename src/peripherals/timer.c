@@ -22,41 +22,38 @@ uint32_t getTimerClockFreq(){
     else return after_apb1_pre*2;
 }
 
-// Frequency given in Hz
-// We are going to use channel 2(PA1)
+/*
+ * Enable PWM of channel PA1, using frequency input.
+ * DC is not customisable in this implementation , is set by default to 50%.
+ */
+
 void setPWM(uint32_t frequency){
-  //set up PWM parameters
-  //TIM2_ARR = 0xFFFF; //frequency
-  //TIM2_PSC = 0xFFFF; //prescaler
   TIM2_CR1 = (1<<ARPE); //buffered ARR
   TIM2_CCMR1 = (0<<OC2CE)|(111<<OC2M)|(00<<CC2S)|(1<<OC2PE); //PWM mode1, output, preload enable
   TIM2_CCER = (1<<CC2P)|(1<<CC2E); //OC2 active: HIGH, OC2 as output
-  //TIM2_CCR2 = 0x8000; //50% DC
 
-  // Set timer clock and prescaler
-  uint16_t prescaler = 0xfff;
+  uint16_t prescaler = 0xfff; // by default
   TIM2_PSC = prescaler - 1; // No prescaling to the timer frequency
 
-  // Set the frequency and the duty cycle
   uint32_t ARR;
   uint32_t timer_clock = getTimerClockFreq();
   ARR = (timer_clock*1000/(prescaler))/frequency;
-  TIM2_ARR = ARR;//ARR;
+  TIM2_ARR = ARR; 
   TIM2_CCR2 = ARR/2;
 
-  //load settings into timer by forcing an update
-  TIM2_EGR = (1<<UG);
+  TIM2_EGR = (1<<UG);     // force update event to load settings from shadow registers
   TIM2_SR &= 0x0;
-
-  //start timer
-  TIM2_CR1 |= (1<<CEN);
-
+  TIM2_CR1 |= (1<<CEN);   //start timer
 
 }
 
+/*
+ * Set and enable Timers 2-3-4-5 to user's params.
+ * Select timer, frequency, prescaler, counting direction and interrupt enable/disable
+ */
+
 void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en){
   /*
-  Set-up TIMx registers to user's values/settings.
   Force update event (using TIMx_EGR(UG = 1)) to load settings to said registers.
   Enable counter and enable/disable interrupt.
   */

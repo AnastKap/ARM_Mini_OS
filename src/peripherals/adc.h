@@ -3,11 +3,12 @@
 
 #include <stdint.h>
 
+// ADC1-3 base addresses
 #define ADC1_BASE    0x40012400
 #define ADC2_BASE    0x40012800
 #define ADC3_BASE    0x40013c00
 
-
+// ADC1 registers
 #define ADC1_SR       *(volatile uint32_t*) (ADC1_BASE + 0x00)
 #define ADC1_CR1      *(volatile uint32_t*) (ADC1_BASE + 0x04)
 #define ADC1_CR2      *(volatile uint32_t*) (ADC1_BASE + 0x08)
@@ -29,13 +30,13 @@
 #define ADC1_JDR4     *(volatile uint32_t*) (ADC1_BASE + 0x48)
 #define ADC1_DR       *(volatile uint32_t*) (ADC1_BASE + 0x4c)
 
-
+// ADC bits
 #define ADON    0
 #define CONT    1
 #define EOC     1
 #define CAL     2
 
-
+//
 void startContinuousConversion(uint8_t sequence[], uint8_t seq_len);
 
 uint16_t readDataConverted();

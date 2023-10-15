@@ -11,8 +11,6 @@ void attachHandler(void *mem_address, void *handler_address){
 	*(uint32_t *)mem_address = (uint32_t) handler_address;
 }
 
-
-
 /*
  * SysTick - specific definitions
  */
@@ -28,6 +26,10 @@ void enableSystick(){
 	SYST_CVR = 100000;
 }
 
+/*
+ * Enable selected interrupt 
+ */
+
 void setInterrupt(uint32_t position){
 	if(position<32)
 		NVIC_ISER0 |= (1<<position);
@@ -35,6 +37,10 @@ void setInterrupt(uint32_t position){
 		position -= 32;
  		NVIC_ISER1 |= (1<<position);
 }
+
+/*
+ * Disable selected interrupt 
+ */
 
 void clearInterrupt(uint32_t position){
 	if(position<32)
@@ -44,6 +50,9 @@ void clearInterrupt(uint32_t position){
 	 	NVIC_ICER1 |= (1<<position);
 }
 
+/*
+ * Some interrupt implementations for testing and debbuging. 
+ */
 
 __attribute__((interrupt("FIQ"))) void HardFault_ISR(){
 	setPin(GPIOB, GPIO_PIN_12, 0);
@@ -51,7 +60,6 @@ __attribute__((interrupt("FIQ"))) void HardFault_ISR(){
 
 int led1 = 0;
 __attribute__((interrupt("IRQ"))) void TIM2_ISR(){
-	//static i;
 	led1 = ~led1;
 	setPin(GPIOB, 5, led1);
 	TIM2_SR &=0x0; //clear status register
