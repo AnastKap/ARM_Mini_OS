@@ -51,7 +51,7 @@ void clearInterrupt(uint32_t position){
 }
 
 /*
- * Some interrupt implementations for testing and debbuging. 
+ * Some interrupt handlers implementations for testing and debbuging. 
  */
 
 __attribute__((interrupt("FIQ"))) void HardFault_ISR(){

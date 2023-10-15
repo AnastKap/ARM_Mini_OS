@@ -23,8 +23,7 @@ uint32_t getTimerClockFreq(){
 }
 
 /*
- * Enable PWM of channel PA1, using frequency input.
- * DC is not customisable in this implementation , is set by default to 50%.
+ * Enable PWM with output channel PA1, using frequency input.
  */
 
 void setPWM(uint32_t frequency){
@@ -48,8 +47,7 @@ void setPWM(uint32_t frequency){
 }
 
 /*
- * Set and enable Timers 2-3-4-5 to user's params.
- * Select timer, frequency, prescaler, counting direction and interrupt enable/disable
+ * Set and use TIM2-5 to user's params.
  */
 
 void setTimer(uint32_t timer,uint32_t frequency,uint32_t prescaler,uint32_t direction,uint32_t intr_en){
